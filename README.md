@@ -27,7 +27,6 @@ Once the above prerequisites are met in your system, follow these steps:
 - Open `mysql` on local server.
 - Create a database named **ash** using: 
 	```sql
-	CREATE DATABASE ash CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     CREATE USER '<user>'@'localhost' IDENTIFIED BY '<password>';
     GRANT ALL PRIVILEGES ON ash.* TO '<user>'@'localhost';
     exit
@@ -41,7 +40,7 @@ Once the above prerequisites are met in your system, follow these steps:
     ```bash
     python3 ash_world.py 
     ```
-- Enter  the database using "Host", "User" and "Password" with the details of the user (**with all permissions**).
+- Enter the database using "Host", "User" and "Password" with the details of the user (**with all permissions**).
                                        
 :warning: **Use user with all permisions**: Not using user without all permission may cause issues during runtime.
 
