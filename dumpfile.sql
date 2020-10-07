@@ -195,31 +195,31 @@ VALUES (5546, 'OT45', 'OffRoader');
 
 -- PERSONNEL
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('JackReaper', 'Alpha', 5);
+VALUES ('Jack Reaper', 'Alpha', 5);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('JohnLegend', 'Delta', 7);
+VALUES ('John Legend', 'Delta', 7);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('MaryGold', 'Zulu', 9);
+VALUES ('Mary Gold', 'Zulu', 9);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('HarryPotter', 'Delta', 5);
+VALUES ('Harry Potter', 'Delta', 5);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('PercyJackson', 'Zulu', 5);
+VALUES ('Percy Jackson', 'Zulu', 5);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('RockJohnson', 'Alpha', 3);
+VALUES ('Rock Johnson', 'Alpha', 3);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('MrRobot', 'Alpha', 7);
+VALUES ('Mr Robot', 'Alpha', 7);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('MickyMouse', 'Zulu', 7);
+VALUES ('Micky Mouse', 'Zulu', 7);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('FlintCameron', 'Delta', 5);
+VALUES ('Flint Cameron', 'Delta', 5);
 
 
 -- MEDIC
@@ -292,6 +292,8 @@ VALUES (9, 8);
 INSERT INTO SUPERVISION (SIDnumber, IDnumber)
 VALUES (2, 3);
 
+INSERT INTO SUPERVISION (SIDnumber, IDnumber)
+VALUES (5, 4);
 
 -- BELONGS_TO
 INSERT INTO BELONGS_TO (IDnumber, ChassisNo, Model, MatName, WingName)
@@ -320,3 +322,5 @@ VALUES (7, 6723, 'FL12', 'FlameThrower', 'Air');
 
 INSERT INTO BELONGS_TO (IDnumber, ChassisNo, Model, MatName, WingName)
 VALUES (3, 6723, 'FL12', 'FlameThrower', 'Air');
+
+
