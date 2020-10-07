@@ -11,7 +11,16 @@ except:
     os.system("pip3 install PTable")
     from prettytable import PrettyTable
 
-fuel_cost = 10
+fuel_cost = 100
+
+def get_keys(table):
+    key_query = f"SHOW KEYS FROM {table} WHERE Key_name='PRIMARY'"
+    cur.execute(key_query)
+    rows = cur.fetchall()
+    keys = []
+    for row in rows:
+        keys.append(row["Column_name"])
+    return keys
 
 def not_found():
     print('Not Found')
@@ -522,7 +531,7 @@ def c32():
                 cur.execute(query)
                 supervisors.append(cur.fetchone())
 
-            print(f"\nThe Personnel has {len(supervisors)} supervisors:")
+            print(f"\nThe Personnel has {len(supervisors)} supervisor(s):")
             display_data(supervisors)
         except:
             pass
@@ -540,7 +549,7 @@ def c32():
                 cur.execute(query)
                 supervisees.append(cur.fetchone())
 
-            print(f"\nThe Personnel supervises {len(supervisees)} supervisees:")
+            print(f"\nThe Personnel supervises {len(supervisees)} supervisee(s):")
             display_data(supervisees)
         except:
             pass
@@ -550,18 +559,108 @@ def c32():
 
     tmp = input("\nEnter any key to CONTINUE>")
 
-#Get people that can access more than X vehicles in wing Y (Query C33)
+#Get people that can access more than X vehicles (Query C33)
 def c33():
     """
 
     """
+    tmp = sp.call('clear', shell=True)
+    print ()
+    print ("Get List of People with Access to greater than X Vehicles")
+    print ()
+
+    try:
+        while True:
+            x = input("Enter X (integer): ")
+            if x != '':
+                try:
+                    x = int(x)
+                    break
+                except ValueError:
+                    print("Enter a valid input")
+            else:
+                print("Enter a valid input")
+    
+
+        get_people = f"SELECT * FROM PERSONNEL"
+        cur.execute(get_people)
+        rows = cur.fetchall()
+        personnels = list(set([item["IDnumber"] for item in rows]))
+
+        people = []
+        for pid in personnels:
+            vquery = f"SELECT COUNT(DISTINCT ChassisNo, Model) as vno FROM BELONGS_TO WHERE IDNumber = {pid}"
+            cur.execute(vquery)
+            vno = cur.fetchone()["vno"]
+            if vno is None:
+                vno = 0
+            if vno > x:
+                people.append(pid)
+
+        print("\nNumber of People: ", len(people), "\n")
+        dict_people = []
+        if len(rows):
+            for i in range(len(rows)):
+                if rows[i]["IDnumber"] in people:
+                    dict_people.append(rows[i])
+            display_data(dict_people)
+
+    except Exception as e:
+        pass
+
+    print()
+    tmp = input("Enter any key to CONTINUE>")
 
 #Get list of vehicles where money spent is greater than X (Query C34)
 def c34():
     """
 
     """
+    tmp = sp.call('clear', shell=True)
+    print ()
+    print ("Get List of Vehicles where Money Spent is Greater than X")
+    print ()
 
+    try:
+        while True:
+            x = input("Enter X: ")
+            if x != '':
+                try:
+                    x = float(x)
+                    break
+                except ValueError:
+                    print("Enter a valid input")
+            else:
+                print("Enter a valid input")
+    
+        get_vehicles = f"SELECT * FROM VEHICLE"
+        cur.execute(get_vehicles)
+        rows = cur.fetchall()
+        vehicles = list(set([(item["ChassisNo"],item["Model"]) for item in rows]))
+        # print(vehicles)
+        vehicle = []
+        for vid in vehicles:
+            vquery = f"SELECT SUM(Distance/Mileage)*{fuel_cost} as cost FROM VEHICLE NATURAL JOIN TRIP WHERE ChassisNo={vid[0]} AND Model='{vid[1]}'"
+            cur.execute(vquery)
+            cost = cur.fetchone()["cost"]
+            if cost is None:
+                cost = 0
+            if cost > x:
+                vehicle.append(vid)
+
+        print("\nNumber of Vehicles: ", len(vehicle), "\n")
+        dict_vehicle = []
+        for i in range(len(rows)):
+            if (rows[i]["ChassisNo"],rows[i]["Model"]) in vehicle:
+                dict_vehicle.append(rows[i])
+        display_data(dict_vehicle)
+    
+    except Exception as e:
+        pass
+
+    print()
+    tmp=input("Enter any key to CONTINUE>")
+    
 #Insert Personnel (Query D111)
 def d111():
     """
@@ -793,7 +892,7 @@ def d112():
         # insert to BELONGS_TO
         tmp = sp.call('clear', shell=True)
         print ()
-        print ("Insert into BELONGS_TO (Query)")
+        print ("Connect this Vehicle to a Wing, Personnel and Material")
         print ()
 
         isCorrect = False
@@ -878,11 +977,17 @@ def d113():
         cur.execute(query)
         con.commit()
         print("Inserted Into Database")
+        print("Trip Cost deducted from Budget")
         print()
 
         chassisnos = get_values("BELONGS_TO","ChassisNo")
         models = get_values("BELONGS_TO","Model")
         wings = get_values("BELONGS_TO","WingName")
+
+        # get Mileage
+        temp_query = f"SELECT Mileage FROM VEHICLE WHERE ChassisNo={row['ChassisNo']} and Model={row['Model']}"
+        cur.execute(temp_query)
+        mileage = cur.fetchone()["Mileage"]
 
         vid = [(chassisnos[i],models[i]) for i in range(len(models))]
 
@@ -893,7 +998,7 @@ def d113():
             cur.execute(get_budget)
             budget = cur.fetchone()['Budget']
 
-            new_budget = budget - fuel_cost*row["Distance"]
+            new_budget = budget - fuel_cost*(row["Distance"]/mileage)
             set_budget = f"UPDATE WINGS SET BUDGET={new_budget} WHERE Wings='{wng}'"
             cur.execute(set_budget)
             con.commit()
@@ -961,7 +1066,7 @@ def d114():
         # insert to BELONGS_TO
         tmp = sp.call('clear', shell=True)
         print ()
-        print ("Insert into BELONGS_TO")
+        print ("Connect this material to a Wing, Personnel and Vehicle")
         print ()
 
         isCorrect = False
@@ -1125,10 +1230,17 @@ def d131():
         
         print()
         print("Do not modify IDnumber.")
+        keys = get_keys("PERSONNEL")
         table = input("Name of the table you wish to modify: ")
         col = input("Name of the column you wish to modify: ")
-        val = input("New value: ")
 
+        if col in keys:
+            print("\nCannot update the primary key")
+            tmp = input("\nEnter any key to CONTINUE>")
+            return
+
+        val = input("New value: ")
+        
         type = get_data_type(table,col)
 
         if val != "NULL" and (type == 'varchar' or type == 'char'):
@@ -1179,7 +1291,7 @@ def d132():
                 print ("Enter a valid input")
                 print ()
 
-        get_row = "SELECT * FROM VEHICLE WHERE ChassisNo={} and Model='{}'".format(pid1, pid2)
+        get_row = "SELECT * FROM VEHICLE WHERE ChassisNo={} and Model={}".format(pid1, pid2)
         cur.execute(get_row)
         row = cur.fetchall()
         print("Vehicle details:")
@@ -1207,7 +1319,14 @@ def d132():
         print("Do not modify Chassis Number and Model.")
         # table = input("Name of the table you wish to modify: ")
         table = "VEHICLE"
-        col = input("Name of the column you wish to modify: ")
+        col = input("\nName of the column you wish to modify: ")
+
+        keys = get_keys("VEHICLE")
+        if col in keys:
+            print("\nCannot update the primary key")
+            tmp = input("\nEnter any key to CONTINUE>")
+            return
+        
         val = input("New value: ")
 
         type = get_data_type(table,col)
@@ -1264,7 +1383,7 @@ def d133():
             dist = input("Enter new distance: ")
             if dist != '':
                 try:
-                    dist = int(dist)
+                    dist = float(dist)
                     print()
                     break
                 except ValueError:
@@ -1274,19 +1393,45 @@ def d133():
                 print ("Enter a valid input")
                 continue
         
-        for row in row:
-            row["Model"] = "'" + row["Model"] + "'"
-            query = "UPDATE TRIP SET Distance={} WHERE ChassisNo={} and Model={}".format(dist, row["ChassisNo"], row["Model"])
-            print(query)
-            cur.execute(query)
-            con.commit()
+        try:
+            get_vehicle = f"SELECT Distance,ChassisNo,Model,Mileage FROM TRIP NATURAL JOIN VEHICLE WHERE RecieptNumber={pid}"
+            cur.execute(get_vehicle)
+            details = cur.fetchall()[0]
+            if details != ():
+                old_dist, mileage, cno, mdl = details["Distance"], details["Mileage"], details["ChassisNo"],details["Model"]
+                chassisnos = get_values("BELONGS_TO","ChassisNo")
+                models = get_values("BELONGS_TO","Model")
+                wings = get_values("BELONGS_TO","WingName")
+                vid = [(chassisnos[i],models[i]) for i in range(len(models))]
+                if (cno,mdl) in vid:
+                    ind = vid.index((cno,mdl))
+                    wng = wings[ind]
+                    get_budget = f"SELECT Budget FROM WINGS WHERE Wings='{wng}'"
+                    cur.execute(get_budget)
+                    budget = cur.fetchone()['Budget']
+                    old_cost = fuel_cost*(old_dist/mileage)
+                    new_cost = fuel_cost*(dist/mileage)
+                    new_budget = budget + old_cost - new_cost
+                    set_budget = f"UPDATE WINGS SET BUDGET={new_budget} WHERE Wings='{wng}'"
+                    cur.execute(set_budget)
+                    con.commit()
+                    print(f"\nTrip cost updated in {wng} Wing Budget")
+        except Exception as e:
+            con.rollback()
+            print(e)
+            pass
+
+        query = "UPDATE TRIP SET Distance={} WHERE RecieptNumber={}".format(dist, pid)
+        print(query)
+        cur.execute(query)
+        con.commit()
         print("Updated Database")
 
     except Exception as e:
         con.rollback()
         print("Failed to update database")
         print(">> ",e)
-    tmp = input("Enter any key to CONTINUE>")
+    tmp = input("\nEnter any key to CONTINUE>")
 
 # Update material
 def d134():
@@ -1330,7 +1475,7 @@ def d134():
             cost = input("Enter cost: ")
             if cost != '':
                 try:
-                    cost = int(cost)
+                    cost = float(cost)
                     print ()
                     break
                 except ValueError:
@@ -1378,23 +1523,28 @@ def d135():
         get_row = "SELECT * FROM INTEL WHERE IDnumber={}".format(pid)
         cur.execute(get_row)
         row = cur.fetchall()
-        print("Intel details:")
-        display_data(row)
-        print()
 
-        msg = input("Enter new message: ")
-        print()
-        msg = "'" + msg + "'"
-        dt = "'" + str(datetime.date.today()) + "'"
-        tm = "'" + str(datetime.datetime.now().strftime("%H:%M:%S")) + "'"
+        if row == ():
+            print("This personnel did not send any Intel")
+            print()
+        else:
+            print("Intel details:")
+            display_data(row)
+            print()
 
-        query = "UPDATE INTEL SET Content={}, Date={}, Time={} WHERE IDnumber={}".format(msg, dt, tm, pid)
-        print(query)
-        print()
-        cur.execute(query)
-        con.commit()
-        print("Updated Database")
-        print()
+            msg = input("Enter new message: ")
+            print()
+            msg = "'" + msg + "'"
+            # dt = "'" + str(datetime.date.today()) + "'"
+            # tm = "'" + str(datetime.datetime.now().strftime("%H:%M:%S")) + "'"
+
+            query = "UPDATE INTEL SET Content={} WHERE IDnumber={}".format(msg, pid)
+            print(query)
+            print()
+            cur.execute(query)
+            con.commit()
+            print("Updated Database")
+            print()
 
     except Exception as e:
         con.rollback()
@@ -1429,23 +1579,28 @@ def d136():
         get_row = "SELECT * FROM SIG WHERE IDnumber={}".format(pid)
         cur.execute(get_row)
         row = cur.fetchall()
-        print("Signal details:")
-        display_data(row)
-        print()
 
-        msg = input("Enter new message: ")
-        print()
-        msg = "'" + msg + "'"
-        dt = "'" + str(datetime.date.today()) + "'"
-        tm = "'" + str(datetime.datetime.now().strftime("%H:%M:%S")) + "'"
+        if row == ():
+            print("This personnel did not send any Signals")
+            print()
+        else:
+            print("Signal details:")
+            display_data(row)
+            print()
 
-        query = "UPDATE SIG SET Content={}, Date={}, Time={} WHERE IDnumber={}".format(msg, dt, tm, pid)
-        print(query)
-        print()
-        cur.execute(query)
-        con.commit()
-        print("Updated Database")
-        print()
+            msg = input("Enter new message: ")
+            print()
+            msg = "'" + msg + "'"
+            # dt = "'" + str(datetime.date.today()) + "'"
+            # tm = "'" + str(datetime.datetime.now().strftime("%H:%M:%S")) + "'"
+
+            query = "UPDATE SIG SET Content={} WHERE IDnumber={}".format(msg, pid)
+            print(query)
+            print()
+            cur.execute(query)
+            con.commit()
+            print("Updated Database")
+            print()
 
     except Exception as e:
         con.rollback()
@@ -1590,6 +1745,32 @@ def d123():
             print("Enter valid input")
 
     try:
+        #check if trip exist
+        try:
+            get_vehicle = f"SELECT Distance,ChassisNo,Model,Mileage FROM TRIP NATURAL JOIN VEHICLE WHERE RecieptNumber={row['RecieptNumber']}"
+            cur.execute(get_vehicle)
+            details = cur.fetchall()[0]
+            if details != ():
+                dist, mileage, cno, mdl = details["Distance"], details["Mileage"], details["ChassisNo"],details["Model"]
+                chassisnos = get_values("BELONGS_TO","ChassisNo")
+                models = get_values("BELONGS_TO","Model")
+                wings = get_values("BELONGS_TO","WingName")
+                vid = [(chassisnos[i],models[i]) for i in range(len(models))]
+                if (cno,mdl) in vid:
+                    ind = vid.index((cno,mdl))
+                    wng = wings[ind]
+                    get_budget = f"SELECT Budget FROM WINGS WHERE Wings='{wng}'"
+                    cur.execute(get_budget)
+                    budget = cur.fetchone()['Budget']
+
+                    new_budget = budget + fuel_cost*(dist/mileage)
+                    set_budget = f"UPDATE WINGS SET BUDGET={new_budget} WHERE Wings='{wng}'"
+                    cur.execute(set_budget)
+                    con.commit()
+                    print(f"\nTrip cost refunded to {wng} Wing Budget")
+        except:
+            con.rollback()
+            pass
         print()
         query = "DELETE FROM TRIP WHERE RecieptNumber={}".format(row["RecieptNumber"])
         print(query)
@@ -1740,7 +1921,7 @@ def search():
             ch = input("\nEnter choice: ")
             try:
                 ch = int(ch)
-                if not ch in range(1,3):
+                if not ch in range(1,4):
                     print("Enter valid input")
                     continue
                 break
@@ -1766,7 +1947,15 @@ def search():
         if dt == 'char' or dt == 'varchar':
             val = "'" + val + "'"
         
-        query = f"SELECT * FROM {table} WHERE {column}={val}"
+        query = ""
+        if column == "Quantity" or column == "Cost" or column == "Mileage" or column == "PassengerCapacity":
+            query = f"SELECT * FROM {table} WHERE {column}>={val}"
+            print("\nDisplaying everything with value greater than or equal to the value you specified:")
+        elif get_data_type(table,column) == 'varchar' or get_data_type(table,column) == 'char':
+            temp_val = "'%" + val[1:-1] + "%'"
+            query = f"SELECT * FROM {table} WHERE {column} LIKE {temp_val}"
+        else:
+            query = f"SELECT * FROM {table} WHERE {column}={val}"
         cur.execute(query)
         rows = cur.fetchall()
 
@@ -2249,13 +2438,9 @@ while(1):
     tmp = sp.call('clear', shell=True)
 
     username = input("Username: ")
-    # password = input("Password: ")
-    print ()
-    # username = getpass.getuser()
-    # print ("Username: ", username)
-
     password = getpass.getpass("Password: ")
-    
+    print ()
+
     try:
         # Set db name accordingly which have been create by you
         # Set host to the server's address if you don't want to use local SQL server
@@ -2377,3 +2562,11 @@ while(1):
             h1. Add a Relationship between Personnel, Vehicle, Material and Wing
 
     """
+
+
+"""
+--------------
+Changes to be made:
+
+1. In Update and Delete trip 
+"""
