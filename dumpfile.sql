@@ -213,7 +213,7 @@ INSERT INTO PERSONNEL (Name, Regiment, Rnk)
 VALUES ('Rock Johnson', 'Alpha', 3);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
-VALUES ('Mr Robot', 'Alpha', 7);
+VALUES ('Mr.Robot', 'Alpha', 7);
 
 INSERT INTO PERSONNEL (Name, Regiment, Rnk)
 VALUES ('Micky Mouse', 'Zulu', 7);
