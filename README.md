@@ -29,10 +29,9 @@ Once the above prerequisites are met in your system, follow these steps:
 	```sql
     CREATE USER '<user>'@'localhost' IDENTIFIED BY '<password>';
     GRANT ALL PRIVILEGES ON *.* TO '<user>'@'localhost';
-    exit
 	```
 - Dump the  database into `ash` from `core/SQL` using:
-	```bash
+	```
 	mysql -u <user> -p 
 	source dumpfile.sql
 	```
