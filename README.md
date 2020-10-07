@@ -25,7 +25,7 @@ A database management system (DBMS) designed specifically for a centralised mili
 Once the above prerequisites are met in your system, follow these steps:
 
 - Open `mysql` on local server.
-- Create a database named **ash** using: 
+- Create a user and grant it priviledges: 
 	```sql
     CREATE USER '<user>'@'localhost' IDENTIFIED BY '<password>';
     GRANT ALL PRIVILEGES ON ash.* TO '<user>'@'localhost';
