@@ -65,7 +65,7 @@ def get_values(table,column):
 # Check validity of name
 def check_name(name):
     for c in name:
-        if not c.isalpha() and c != ' ':
+        if not c.isalpha() and c != ' ' and c != '.':
             return False
     return True
 
