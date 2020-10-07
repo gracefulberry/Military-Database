@@ -34,7 +34,8 @@ Once the above prerequisites are met in your system, follow these steps:
 	```
 - Dump the  database into `ash` from `core/SQL` using:
 	```bash
-	mysql -u <user> -p ash < dumpfile.sql
+	mysql -u <user> -p 
+	source dumpfile.sql
 	```
 - Relocate yourself to `core/Python` and run the following:
     ```bash
@@ -47,8 +48,7 @@ Once the above prerequisites are met in your system, follow these steps:
 ## Map of fuctions:
 
 A map of all funtionalities and the user interface is as given :
-```py
-"""
+```
     a. Initiation:
 
          b1. Modification:
@@ -113,8 +113,6 @@ A map of all funtionalities and the user interface is as given :
            
         Hidden functions:
             h1. Add a Relationship between Personnel, Vehicle, Material and Wing           
-
-    """
 
 ```
 
