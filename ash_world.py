@@ -905,13 +905,12 @@ def d112():
             isCorrect = h1(pid, cno, mdl[1:-1], mat, wng)
 
         print("Inserted Into Database")
-        tmp = input("Enter any key to CONTINUE>")
+        tmp = input("\nEnter any key to CONTINUE>")
 
     except Exception as e:
         con.rollback()
-        print("Failed to insert into database")
-        print(">>", e)
-        tmp = input("Enter any key to CONTINUE>")
+        print("Failed to insert into database\n>> ", e)
+        tmp = input("\nEnter any key to CONTINUE>")
         return
 
     try:
