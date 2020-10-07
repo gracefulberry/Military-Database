@@ -5,9 +5,9 @@ A database management system (DBMS) designed specifically for a centralised mili
 <img src="https://images-ext-1.discordapp.net/external/GlyDNhll4UnT-4iPOZrJbpBWqvgJoo8iOm13QRJYsFI/https/cdn2.cloudpro.co.uk/sites/cloudprod7/files/military_security.jpg?width=659&height=454">
 
 ## Authors
-1. Arihant Srikar Tadanki
-2. Shreyas Pradhan 
-3. Hrishi Narayanan
+1. Arihant Srikar Tadanki (2019113005)
+2. Shreyas Pradhan (2019113004)
+3. Hrishi Narayanan (2019113022)
 
 # Getting started 
 
