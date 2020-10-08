@@ -13,8 +13,13 @@ A database management system (DBMS) designed specifically for a centralised mili
 
 #### Prerequisites
 - **MySQL** or **MariaDB** must be installed for utilization of the Database Dump.
+```
+sudo apt update
+sudo apt install mysql-server
+sudo mysql_secure_installation
+```
 - Using prettytable library: 
-	`pip3 install PTable`
+```pip3 install PTable```
 
 **Note:** MariaDB is similar to MySQL but is also faster to use and easier to install.
  
