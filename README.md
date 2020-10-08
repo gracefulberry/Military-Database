@@ -13,14 +13,13 @@ A database management system (DBMS) designed specifically for a centralised mili
 
 #### Prerequisites
 - **MySQL** or **MariaDB** must be installed for utilization of the Database Dump.
-<div class="panel-body">
 - Using prettytable library: 
 	`pip3 install PTable`
-  
+
 **Note:** MariaDB is similar to MySQL but is also faster to use and easier to install.
  
- </div>
 - **Python3** is required for running the database CLI
+
 :warning: **You must use Python 3**: Not using python3 might result in errors.
 
 ### Initiating the Database
