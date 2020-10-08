@@ -178,6 +178,11 @@ VALUES (5546, 'OT45', 1, 65);
 INSERT INTO TRIP (RecieptNumber, Distance, ChassisNo, Model)
 VALUES (1, 100, 5546, 'OT45');
 
+INSERT INTO TRIP (RecieptNumber, Distance, ChassisNo, Model)
+VALUES (1, 70, 9899, 'MX55');
+
+INSERT INTO TRIP (RecieptNumber, Distance, ChassisNo, Model)
+VALUES (1, 125, 7522, 'BK98');
 
 -- PURPOSES
 INSERT INTO PURPOSES (ChassisNo, Model, Purpose)
