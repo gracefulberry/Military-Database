@@ -107,9 +107,9 @@ def dispatch(ch):
 
 #Modification (Menu B1)
 def b1():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -139,9 +139,9 @@ def b1():
 
 #Retrieval (Menu B2)
 def b2():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -171,9 +171,9 @@ def b2():
 
 #Analysis (Menu B3)
 def b3():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -206,9 +206,9 @@ def b3():
 
 #Insertion (Menu C11)
 def c11():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -247,9 +247,9 @@ def c11():
 
 #Deletion (Menu C12)
 def c12():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -288,9 +288,9 @@ def c12():
 
 #Update (Menu C12)
 def c13():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -329,9 +329,9 @@ def c13():
 
 #Search (Menu C21)
 def c21():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -367,9 +367,9 @@ def c21():
 
 #Communication (Menu C22)
 def c22():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
 
     print ()
@@ -399,8 +399,8 @@ def c22():
 
 #Get min/max/average/total cost of fuel used in trips (Query 24)
 def c23():
-    """
-    """
+    
+    
     try:
         print("\nTrip Cost Report")
         print("\nCost of fuel used in trip = Distance/Mileage")
@@ -422,9 +422,9 @@ def c23():
 
 #Wing-wise Report (For wing x) (Query C31)
 def c31():
-    """
     
-    """
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Wing-wise Report (Analysis)")
@@ -491,9 +491,9 @@ def c31():
 
 #Supervision Report (Specify ID to get Supervisors of ID and Supervisee of ID) (Query C32)
 def c32():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Supervision Report")
@@ -561,9 +561,9 @@ def c32():
 
 #Get people that can access more than X vehicles (Query C33)
 def c33():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Get List of People with Access to greater than X Vehicles")
@@ -613,9 +613,9 @@ def c33():
 
 #Get list of vehicles where money spent is greater than X (Query C34)
 def c34():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Get List of Vehicles where Money Spent is Greater than X")
@@ -663,9 +663,9 @@ def c34():
     
 #Insert Personnel (Query D111)
 def d111():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Insert Personnel (Query)")
@@ -827,9 +827,9 @@ def d111():
 
 #Insert Vehicle (Query D112)
 def d112():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Insert Vehicle (Query)")
@@ -1434,8 +1434,8 @@ def d133():
 
 # Update material
 def d134():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Update Material (Query)")
@@ -1497,8 +1497,8 @@ def d134():
 
 # Update Intel
 def d135():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Update Intel (Query)")
@@ -1553,8 +1553,8 @@ def d135():
 
 # Update signal
 def d136():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Update Signal (Query)")
@@ -1663,8 +1663,8 @@ def d121():
 
 # Delete Vehicle
 def d122():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Delete vehicle (Query)")
@@ -1722,8 +1722,8 @@ def d122():
 
 # Delete trip
 def d123():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Delete trip (Query)")
@@ -1786,8 +1786,8 @@ def d123():
 
 # Delete material
 def d124():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Delete material (Query)")
@@ -1833,8 +1833,8 @@ def d124():
 
 # Delete intel
 def d125():
-    '''
-    '''
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Delete intel (Query)")
@@ -1871,8 +1871,6 @@ def d125():
 
 # Delete signal
 def d126():
-    '''
-    '''
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Delete signal (Query)")
@@ -1909,8 +1907,6 @@ def d126():
 
 # General search query
 def search():
-    """
-    """
     print("\nSearch (Query)")
     print("\nSearch for:")
     print("1. Personnel \n2. Vehicles \n3. Materials")
@@ -1978,9 +1974,6 @@ def search():
 
 #Search Personnel (Query D211)
 def d211():
-    """
-
-    """
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search Personnel (Query)")
@@ -2036,9 +2029,6 @@ def d211():
 
 #Search Vehicle (Query D212)
 def d212():
-    """
-
-    """
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search Vehicle (Query)")
@@ -2096,9 +2086,9 @@ def d212():
 
 #Search Trip (Query D213)
 def d213():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search Trip (Query)")
@@ -2134,9 +2124,9 @@ def d213():
 
 #Search Material (Query D214)
 def d214():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search Material (Query)")
@@ -2166,9 +2156,9 @@ def d214():
 
 # Search Wing (Query D216)
 def d215():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search Wing (Query)")
@@ -2198,9 +2188,9 @@ def d215():
 
 #Search by string (Query D221)
 def d221():
-    """
     
-    """
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search by String (Query)")
@@ -2252,9 +2242,9 @@ def d221():
 
 #Search by date (Query D222)
 def d222():
-    """
+    
 
-    """
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search by Date (Query)")
@@ -2306,9 +2296,9 @@ def d222():
 
 #Search by sender (Query D223)
 def d223():
-    """
     
-    """
+    
+    
     tmp = sp.call('clear', shell=True)
     print ()
     print ("Search by Sender (Query)")
